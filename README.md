@@ -1,4 +1,4 @@
-# 🚀 DevOps CI/CD Pipeline
+#  DevOps CI/CD Pipeline
 
 A production-oriented DevOps/GitOps project that automates the application delivery lifecycle from source code to deployment on Amazon EKS.
 
@@ -55,7 +55,7 @@ Kubernetes Application
 
 ---
 
-# 🏗️ Architecture
+#  Architecture
 
 The project follows a separation between **CI** and **CD**.
 
@@ -220,7 +220,7 @@ This provides a simple versioning mechanism and allows each CI build to be uniqu
 
 ---
 
-# 🔁 GitOps with Argo CD
+#  GitOps with Argo CD
 
 This project follows the GitOps methodology.
 
@@ -273,7 +273,7 @@ Example:
 
 ```yaml
 images:
-  - name: 036253061913.dkr.ecr.eu-west-1.amazonaws.com/devops
+  - name: ****061913.dkr.ecr.eu-west-1.amazonaws.com/devops
     newTag: 15
 ```
 
