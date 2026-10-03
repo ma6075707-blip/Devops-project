@@ -18,7 +18,7 @@ provider "aws" {
 # VPC
 # -------------------------
 
-resource "aws_vpc" "devsecops" {
+resource "aws_vpc" "devops" {
   cidr_block           = var.vpc_cidr
   enable_dns_support   = true
   enable_dns_hostnames = true
@@ -32,8 +32,8 @@ resource "aws_vpc" "devsecops" {
 # Internet Gateway
 # -------------------------
 
-resource "aws_internet_gateway" "devsecops" {
-  vpc_id = aws_vpc.devsecops.id
+resource "aws_internet_gateway" "devops" {
+  vpc_id = aws_vpc.devops.id
 
   tags = {
     Name = "${var.vpc_name}-igw"
@@ -45,7 +45,7 @@ resource "aws_internet_gateway" "devsecops" {
 # -------------------------
 
 resource "aws_subnet" "public_az1" {
-  vpc_id                  = aws_vpc.devsecops.id
+  vpc_id                  = aws_vpc.devops.id
   cidr_block              = var.public_subnet_az1_cidr
   availability_zone       = var.az1
   map_public_ip_on_launch = true
@@ -60,7 +60,7 @@ resource "aws_subnet" "public_az1" {
 # -------------------------
 
 resource "aws_subnet" "public_az2" {
-  vpc_id                  = aws_vpc.devsecops.id
+  vpc_id                  = aws_vpc.devops.id
   cidr_block              = var.public_subnet_az2_cidr
   availability_zone       = var.az2
   map_public_ip_on_launch = true
@@ -75,7 +75,7 @@ resource "aws_subnet" "public_az2" {
 # -------------------------
 
 resource "aws_subnet" "private_az1" {
-  vpc_id            = aws_vpc.devsecops.id
+  vpc_id            = aws_vpc.devops.id
   cidr_block        = var.private_subnet_az1_cidr
   availability_zone = var.az1
 
@@ -89,7 +89,7 @@ resource "aws_subnet" "private_az1" {
 # -------------------------
 
 resource "aws_subnet" "private_az2" {
-  vpc_id            = aws_vpc.devsecops.id
+  vpc_id            = aws_vpc.devops.id
   cidr_block        = var.private_subnet_az2_cidr
   availability_zone = var.az2
 
@@ -135,7 +135,7 @@ resource "aws_nat_gateway" "az1" {
   }
 
   depends_on = [
-    aws_internet_gateway.devsecops
+    aws_internet_gateway.devops
   ]
 }
 
@@ -152,7 +152,7 @@ resource "aws_nat_gateway" "az2" {
   }
 
   depends_on = [
-    aws_internet_gateway.devsecops
+    aws_internet_gateway.devops
   ]
 }
 
@@ -161,7 +161,7 @@ resource "aws_nat_gateway" "az2" {
 # -------------------------
 
 resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.devsecops.id
+  vpc_id = aws_vpc.devops.id
 
   tags = {
     Name = "${var.vpc_name}-public-rt"
@@ -175,7 +175,7 @@ resource "aws_route_table" "public" {
 resource "aws_route" "public_internet" {
   route_table_id         = aws_route_table.public.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.devsecops.id
+  gateway_id             = aws_internet_gateway.devops.id
 }
 
 # -------------------------
@@ -197,7 +197,7 @@ resource "aws_route_table_association" "public_az2" {
 # -------------------------
 
 resource "aws_route_table" "private_az1" {
-  vpc_id = aws_vpc.devsecops.id
+  vpc_id = aws_vpc.devops.id
 
   tags = {
     Name = "${var.vpc_name}-private-rt-az1"
@@ -228,7 +228,7 @@ resource "aws_route_table_association" "private_az1" {
 # -------------------------
 
 resource "aws_route_table" "private_az2" {
-  vpc_id = aws_vpc.devsecops.id
+  vpc_id = aws_vpc.devops.id
 
   tags = {
     Name = "${var.vpc_name}-private-rt-az2"
@@ -263,7 +263,7 @@ module "eks" {
 
   cluster_name = var.eks_cluster_name
 
-  vpc_id = aws_vpc.devsecops.id
+  vpc_id = aws_vpc.devops.id
 
   private_subnet_ids = [
     aws_subnet.private_az1.id,

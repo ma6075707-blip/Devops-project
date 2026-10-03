@@ -6,8 +6,6 @@ crash.log
 crash.*.log
 
 # Sensitive
-*.tfvars
-*.tfvars.json
 
 # Python
 __pycache__/
