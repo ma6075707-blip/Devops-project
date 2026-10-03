@@ -7,4 +7,4 @@ resources:
 
 images:
   - name: 036253061913.dkr.ecr.eu-west-1.amazonaws.com/devops:latest
-    newTag: 19
+    newTag: 20
