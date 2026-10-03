@@ -5,7 +5,6 @@ pipeline {
 
     environment {
         AWS_REGION = 'eu-west-1'
-        AWS_PROFILE = 'user-terraform'
 
         ECR_REPOSITORY = 'devops'
         AWS_ACCOUNT_ID = '036253061913'
@@ -35,14 +34,20 @@ pipeline {
 
         stage('Login to ECR') {
             steps {
-                sh '''
-                    aws ecr get-login-password \
-                      --region ${AWS_REGION} \
-                      --profile ${AWS_PROFILE} \
-                    | docker login \
-                      --username AWS \
-                      --password-stdin ${IMAGE_URI}
-                '''
+                withCredentials([
+                    [$class: 'AmazonWebServicesCredentialsBinding',
+                     credentialsId: 'aws-ecr']
+                ]) {
+                    sh '''
+                        aws sts get-caller-identity
+
+                        aws ecr get-login-password \
+                          --region ${AWS_REGION} \
+                        | docker login \
+                          --username AWS \
+                          --password-stdin ${IMAGE_URI}
+                    '''
+                }
             }
         }
 
@@ -81,4 +86,3 @@ pipeline {
         }
     }
 }
-
