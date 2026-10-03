@@ -5,7 +5,7 @@ pipeline {
 
     environment {
         AWS_REGION = 'eu-west-1'
-        AWS_ACCOUNT_ID = '036253061913'
+        AWS_ACCOUNT_ID = '***253061913'
 
         ECR_REPOSITORY = 'devops'
 
